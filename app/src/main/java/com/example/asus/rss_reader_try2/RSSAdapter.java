@@ -4,7 +4,10 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -44,6 +47,7 @@ public class RSSAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.itemTitle = (TextView) convertView.findViewById(R.id.itemTitle);
             holder.pubDate = (TextView) convertView.findViewById(R.id.pubDate);
+            holder.thumbnail = (ImageView) convertView.findViewById(R.id.thumbnail);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -51,12 +55,14 @@ public class RSSAdapter extends BaseAdapter {
 
         holder.itemTitle.setText(items.get(position).getTitle());
         holder.pubDate.setText(items.get(position).getDate());
+        Picasso.with(context).load(items.get(position).getImg()).fit().into(holder.thumbnail);
         return convertView;
     }
 
     static class ViewHolder {
         TextView itemTitle;
         TextView pubDate;
+        ImageView thumbnail;
 
     }
 }

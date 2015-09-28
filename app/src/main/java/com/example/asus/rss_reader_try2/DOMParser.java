@@ -4,6 +4,7 @@ import android.util.Xml;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -33,40 +34,58 @@ public class DOMParser {
         String title = null;
         String link = null;
         String pubDate = null;
+        String img = null;
         Document description = null;
+        boolean hasContent = false;
         List<RSSItem> items = new ArrayList<>();
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
             }
             String name = parser.getName();
-            if (name.equalsIgnoreCase("title")) {
-                title = readTitle(parser);
+            if (name.equalsIgnoreCase("item")) {
+                 hasContent = true;
+            } else if (name.equalsIgnoreCase("title")) {
+                if (hasContent) {
+                    title = readTitle(parser);
+                }
             } else if (name.equalsIgnoreCase("link")) {
-                link = readLink(parser);
+                if (hasContent) {
+                    link = readLink(parser);
+                }
             } else if (name.equalsIgnoreCase("pubdate")) {
-                pubDate = readDate(parser);
+                if (hasContent) {
+                    pubDate = readDate(parser);
+                }
             } else if (name.equalsIgnoreCase("description")) {
-                description = readDesc(parser);
+                if (hasContent) {
+                    description = readDesc(parser);
+                    img = readImg(description);
+                }
             }
 
-            if (title != null && link != null ) {
-                RSSItem item = new RSSItem(title, link, description, pubDate);
+            if (title != null && link != null && img != null) {
+                RSSItem item = new RSSItem(title, link, description, pubDate, img);
                 items.add(item);
                 title = null;
                 link = null;
                 pubDate = null;
                 description = null;
+                img = null;
             }
         }
         return items;
+    }
+    private String readImg(Document doc) {
+        Elements imgElem = doc.select("img[src~=(?i)\\.(png|jpe?g)]");
+        return imgElem.attr("src");
     }
 
     private Document readDesc(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "description");
         String link = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "description");
-        return Jsoup.parseBodyFragment(link);
+        return Jsoup.parse(link);
     }
 
     private String readDate(XmlPullParser parser) throws XmlPullParserException, IOException {

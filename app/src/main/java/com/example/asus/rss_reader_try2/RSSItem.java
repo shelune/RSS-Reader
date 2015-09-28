@@ -10,12 +10,14 @@ public class RSSItem {
     private String link;
     private String date;
     private Document description;
+    private String imgUrl;
 
-    public RSSItem(String title, String link, Document description, String date) {
+    public RSSItem(String title, String link, Document description, String date, String imgUrl) {
         this.title = title;
         this.link = link;
         this.description = description;
         this.date = date;
+        this.imgUrl = imgUrl;
     }
 
     public String getTitle() {
@@ -31,7 +33,16 @@ public class RSSItem {
     }
 
     public String getDate() {
-        return date;
+        String result = date.replace(" +0000","").substring(0, 16);
+        return result;
+    }
+
+    public String getImg() {
+        return imgUrl;
+    }
+
+    public void setImg(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
 }
