@@ -29,7 +29,7 @@ public class RSSService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.w(Constants.TAG, "Service started");
+        Log.w("RSS", "Service started");
         List<RSSItem> rssItems = null;
         try {
             DOMParser parser = new DOMParser();
@@ -51,7 +51,7 @@ public class RSSService extends IntentService {
             URL url = new URL(link);
             return url.openConnection().getInputStream();
         } catch (IOException e) {
-            Log.w(Constants.TAG, "Error retrieving the input stream", e);
+            Log.w(e.getMessage(), "Error retrieving the input stream", e);
             return null;
         }
     }
