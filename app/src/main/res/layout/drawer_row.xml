@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="72dp"
         android:layout_gravity="center_vertical"
-        android:textColor="#000"
+        android:textColor="#1e88e5"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:singleLine="true"
         />

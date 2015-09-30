@@ -33,8 +33,7 @@ public class RSSItem {
     }
 
     public String getDate() {
-        String result = date.replace(" +0000","").substring(0, 16);
-        return result;
+        return date;
     }
 
     public String getImg() {

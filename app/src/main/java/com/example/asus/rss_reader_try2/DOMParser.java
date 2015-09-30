@@ -4,6 +4,7 @@ import android.util.Xml;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -36,6 +37,7 @@ public class DOMParser {
         String pubDate = null;
         String img = null;
         Document description = null;
+        Document webPage = null;
         boolean hasContent = false;
         List<RSSItem> items = new ArrayList<>();
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
@@ -53,7 +55,7 @@ public class DOMParser {
                 if (hasContent) {
                     link = readLink(parser);
                 }
-            } else if (name.equalsIgnoreCase("pubdate")) {
+            } else if (name.equalsIgnoreCase("pubDate")) {
                 if (hasContent) {
                     pubDate = readDate(parser);
                 }
@@ -71,11 +73,11 @@ public class DOMParser {
                 link = null;
                 pubDate = null;
                 description = null;
-                img = null;
             }
         }
         return items;
     }
+
     private String readImg(Document doc) {
         Elements imgElem = doc.select("img[src~=(?i)\\.(png|jpe?g)]");
         return imgElem.attr("src");
@@ -90,7 +92,7 @@ public class DOMParser {
 
     private String readDate(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "pubDate");
-        String link = readText(parser);
+        String link = readText(parser).substring(0, 16);
         parser.require(XmlPullParser.END_TAG, ns, "pubDate");
         return link;
     }

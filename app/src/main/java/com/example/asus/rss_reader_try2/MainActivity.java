@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,14 +45,30 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.syncState();
 
         List<String> rows = new ArrayList<>();
-        rows.add("Option 1");
-        rows.add("Option 2");
-        rows.add("Option 3");
+        rows.add("Source 1");
+        rows.add("Source 2");
+        rows.add("Source 3");
 
         DrawerAdapter drawerAdapter = new DrawerAdapter(rows);
         recyclerView.setAdapter(drawerAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
 
         if (savedInstanceState == null) {
             addRssFragment();
@@ -85,6 +102,18 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = manager.beginTransaction();
         RSSFragment frag = new RSSFragment();
         transaction.add(R.id.fragment_container, frag);
+        transaction.commit();
+    }
+
+    private void changeFeed(String link) {
+        Bundle bundle = new Bundle();
+        bundle.putString(RSSService.LINK, link);
+        RSSFragment frag = new RSSFragment();
+        frag.setArguments(bundle);
+
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.fragment_container, frag);
         transaction.commit();
     }
 

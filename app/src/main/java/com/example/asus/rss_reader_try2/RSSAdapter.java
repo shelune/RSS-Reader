@@ -55,7 +55,12 @@ public class RSSAdapter extends BaseAdapter {
 
         holder.itemTitle.setText(items.get(position).getTitle());
         holder.pubDate.setText(items.get(position).getDate());
-        Picasso.with(context).load(items.get(position).getImg()).fit().into(holder.thumbnail);
+        if (items.get(position).getImg().length() == 0) {
+            Picasso.with(context).load(R.mipmap.placeholder).fit().into(holder.thumbnail);
+        } else {
+            Picasso.with(context).load(items.get(position).getImg()).fit().into(holder.thumbnail);
+        }
+
         return convertView;
     }
 

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -59,9 +58,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         protected int viewType;
-
         @Bind(R.id.row_icon) ImageView rowIcon;
         @Bind(R.id.row_text) TextView rowText;
+
 
         public ViewHolder(View itemView, int viewType) {
             super(itemView);

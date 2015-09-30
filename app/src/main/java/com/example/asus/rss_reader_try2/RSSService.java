@@ -15,13 +15,13 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 
-/**
- * Created by ASUS on 25-Sep-15.
- */
 public class RSSService extends IntentService {
-    private static final String RSS_URL = "http://www.smashingmagazine.com/feed/ ";
+    private static final String RSS_URL = "http://www.smashingmagazine.com/feed/";
+    private static final String RSS_URL_1 = "http://www.telegraph.co.uk/travel/travelnews/rss";
+    private static final String RSS_URL_2 = "http://www.joindota.com/feeds/news";
     public static final String ITEMS = "items";
     public static final String RECEIVER = "receiver";
+    public static final String LINK = "link";
 
     public RSSService() {
         super("RSSService");
@@ -29,7 +29,6 @@ public class RSSService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.w("RSS", "Service started");
         List<RSSItem> rssItems = null;
         try {
             DOMParser parser = new DOMParser();
