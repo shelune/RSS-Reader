@@ -15,9 +15,12 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 
+/**
+ * Created by ASUS on 25-Sep-15.
+ */
 public class RSSService extends IntentService {
     private static final String RSS_URL = "http://www.smashingmagazine.com/feed/";
-    private static final String RSS_URL_1 = "http://www.telegraph.co.uk/travel/travelnews/rss";
+    private static final String RSS_URL_1 = "http://feeds.bbci.co.uk/news/business/rss.xml";
     private static final String RSS_URL_2 = "http://www.joindota.com/feeds/news";
     public static final String ITEMS = "items";
     public static final String RECEIVER = "receiver";
@@ -50,7 +53,6 @@ public class RSSService extends IntentService {
             URL url = new URL(link);
             return url.openConnection().getInputStream();
         } catch (IOException e) {
-            Log.w(e.getMessage(), "Error retrieving the input stream", e);
             return null;
         }
     }

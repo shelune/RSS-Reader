@@ -60,7 +60,6 @@ public class RSSAdapter extends BaseAdapter {
         } else {
             Picasso.with(context).load(items.get(position).getImg()).fit().into(holder.thumbnail);
         }
-
         return convertView;
     }
 

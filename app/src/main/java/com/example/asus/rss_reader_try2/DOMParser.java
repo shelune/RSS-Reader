@@ -4,7 +4,6 @@ import android.util.Xml;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -37,36 +36,35 @@ public class DOMParser {
         String pubDate = null;
         String img = null;
         Document description = null;
-        Document webPage = null;
         boolean hasContent = false;
+        int eventType = parser.getEventType();
         List<RSSItem> items = new ArrayList<>();
-        while (parser.next() != XmlPullParser.END_DOCUMENT) {
-            if (parser.getEventType() != XmlPullParser.START_TAG) {
-                continue;
-            }
-            String name = parser.getName();
-            if (name.equalsIgnoreCase("item")) {
-                 hasContent = true;
-            } else if (name.equalsIgnoreCase("title")) {
-                if (hasContent) {
-                    title = readTitle(parser);
-                }
-            } else if (name.equalsIgnoreCase("link")) {
-                if (hasContent) {
-                    link = readLink(parser);
-                }
-            } else if (name.equalsIgnoreCase("pubDate")) {
-                if (hasContent) {
-                    pubDate = readDate(parser);
-                }
-            } else if (name.equalsIgnoreCase("description")) {
-                if (hasContent) {
-                    description = readDesc(parser);
-                    img = readImg(description);
-                }
-            }
 
-            if (title != null && link != null && img != null) {
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            if (eventType == XmlPullParser.START_TAG) {
+                if (parser.getName().equalsIgnoreCase("item")) {
+                    hasContent = true;
+                } else if (parser.getName().equalsIgnoreCase("title")) {
+                    if (hasContent)
+                        title = readTitle(parser);
+                } else if (parser.getName().equalsIgnoreCase("link")) {
+                    if (hasContent)
+                        link = readLink(parser);
+                } else if (parser.getName().equalsIgnoreCase("pubDate")) {
+                    if (hasContent)
+                        pubDate = readDate(parser);
+                } else if (parser.getName().equalsIgnoreCase("description")) {
+                    if (hasContent) {
+                        description = readDesc(parser);
+                        img = readImg(description);
+                    }
+                }
+            } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")) {
+                hasContent = false;
+            }
+            eventType = parser.next();
+
+            if (title != null && link != null && pubDate != null && description != null) {
                 RSSItem item = new RSSItem(title, link, description, pubDate, img);
                 items.add(item);
                 title = null;
@@ -77,7 +75,6 @@ public class DOMParser {
         }
         return items;
     }
-
     private String readImg(Document doc) {
         Elements imgElem = doc.select("img[src~=(?i)\\.(png|jpe?g)]");
         return imgElem.attr("src");
@@ -85,16 +82,16 @@ public class DOMParser {
 
     private Document readDesc(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "description");
-        String link = readText(parser);
+        String desc = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "description");
-        return Jsoup.parse(link);
+        return Jsoup.parse(desc);
     }
 
     private String readDate(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "pubDate");
-        String link = readText(parser).substring(0, 16);
+        String date = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "pubDate");
-        return link;
+        return date;
     }
 
 
@@ -107,9 +104,9 @@ public class DOMParser {
 
     private String readTitle(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "title");
-        String link = readText(parser);
+        String title = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "title");
-        return link;
+        return title;
     }
 
     private String readText(XmlPullParser parser) throws XmlPullParserException, IOException {
