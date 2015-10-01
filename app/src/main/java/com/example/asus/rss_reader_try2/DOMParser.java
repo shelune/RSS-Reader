@@ -36,32 +36,41 @@ public class DOMParser {
         String pubDate = null;
         String img = null;
         Document description = null;
-        boolean hasContent = false;
-        int eventType = parser.getEventType();
+        Boolean hasContent = false;
         List<RSSItem> items = new ArrayList<>();
 
+        int eventType = parser.getEventType();
+
         while (eventType != XmlPullParser.END_DOCUMENT) {
+            String eventName = parser.getName();
             if (eventType == XmlPullParser.START_TAG) {
-                if (parser.getName().equalsIgnoreCase("item")) {
+                if (eventName.equalsIgnoreCase("item")) {
                     hasContent = true;
-                } else if (parser.getName().equalsIgnoreCase("title")) {
+                }
+                else if (eventName.equalsIgnoreCase("title")) {
                     if (hasContent)
                         title = readTitle(parser);
-                } else if (parser.getName().equalsIgnoreCase("link")) {
+                } else if (eventName.equalsIgnoreCase("link")) {
                     if (hasContent)
                         link = readLink(parser);
-                } else if (parser.getName().equalsIgnoreCase("pubDate")) {
+                } else if (eventName.equalsIgnoreCase("pubDate")) {
                     if (hasContent)
                         pubDate = readDate(parser);
-                } else if (parser.getName().equalsIgnoreCase("description")) {
+                } else if (eventName.equalsIgnoreCase("description")) {
                     if (hasContent) {
                         description = readDesc(parser);
-                        img = readImg(description);
+                        if (description.select("img").size() > 0) {
+                            img = readImg(description);
+                        }
                     }
+                } else if (eventName.equals("media:thumbnail")) {
+                    img = readThumbnail(parser);
                 }
-            } else if (eventType == XmlPullParser.END_TAG && parser.getName().equalsIgnoreCase("item")) {
+
+            } else if (eventType == XmlPullParser.END_TAG && eventName.equalsIgnoreCase("item")) {
                 hasContent = false;
             }
+
             eventType = parser.next();
 
             if (title != null && link != null && pubDate != null && description != null) {
@@ -87,11 +96,18 @@ public class DOMParser {
         return Jsoup.parse(desc);
     }
 
+    private String readContentEncodedImg(XmlPullParser parser) throws XmlPullParserException, IOException {
+        parser.require(XmlPullParser.START_TAG, ns, "content:encoded");
+        String content = readText(parser);
+        parser.require(XmlPullParser.END_TAG, ns, "content:encoded");
+        return content;
+    }
+
     private String readDate(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "pubDate");
         String date = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "pubDate");
-        return date;
+        return date.substring(0, 22);
     }
 
 
@@ -109,13 +125,20 @@ public class DOMParser {
         return title;
     }
 
+    private String readThumbnail(XmlPullParser parser) throws XmlPullParserException, IOException {
+        parser.require(XmlPullParser.START_TAG, ns, "media:thumbnail");
+        String thumbnail = parser.getAttributeValue(null, "url");
+        parser.nextTag();
+        return thumbnail;
+    }
+
     private String readText(XmlPullParser parser) throws XmlPullParserException, IOException {
         String result = "";
         if (parser.next() == XmlPullParser.TEXT) {
             result = parser.getText();
             parser.nextTag();
         }
-
         return result;
     }
+
 }

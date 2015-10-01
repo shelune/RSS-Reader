@@ -19,9 +19,18 @@ import java.util.List;
  * Created by ASUS on 25-Sep-15.
  */
 public class RSSService extends IntentService {
-    private static final String RSS_URL = "http://www.smashingmagazine.com/feed/";
-    private static final String RSS_URL_1 = "http://feeds.bbci.co.uk/news/business/rss.xml";
-    private static final String RSS_URL_2 = "http://www.joindota.com/feeds/news";
+    private static final String RSS_URL_SMASHING = "http://www.smashingmagazine.com/feed/";
+    private static final String RSS_URL_TECH = "http://feeds.abcnews.com/abcnews/technologyheadlines";
+    private static final String RSS_URL_HEALTH = "http://feeds.abcnews.com/abcnews/healthheadlines";
+    private static final String RSS_URL_NIGHTLINE = "http://feeds.abcnews.com/abcnews/nightlineheadlines";
+    private static final String RSS_URL_ENTERTAINMENT = "http://feeds.abcnews.com/abcnews/entertainmentheadlines";
+    private static final String RSS_URL_SPORTS = "http://feeds.abcnews.com/abcnews/sportsheadlines";
+    private static final String RSS_URL_TRAVEL = "http://feeds.abcnews.com/abcnews/travelheadlines";
+    private static final String RSS_URL_POLITICS = "http://feeds.abcnews.com/abcnews/politicsheadlines";
+    private static final String RSS_URL_WORLD = "http://feeds.abcnews.com/abcnews/internationalheadlines";
+    private static final String RSS_URL_PCWORLD = "http://www.pcworld.com/index.rss";
+    private static final String RSS_URL_DOTA = "http://www.joindota.com/feeds/news";
+
     public static final String ITEMS = "items";
     public static final String RECEIVER = "receiver";
     public static final String LINK = "link";
@@ -35,7 +44,7 @@ public class RSSService extends IntentService {
         List<RSSItem> rssItems = null;
         try {
             DOMParser parser = new DOMParser();
-            rssItems = parser.parse(getInputStream(RSS_URL));
+            rssItems = parser.parse(getInputStream(RSS_URL_PCWORLD));
         } catch (XmlPullParserException e) {
             Log.w(e.getMessage(), e);
         } catch (IOException e) {
