@@ -45,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.syncState();
 
         List<String> rows = new ArrayList<>();
-        rows.add("Source 1");
-        rows.add("Source 2");
-        rows.add("Source 3");
+        for (int i = 1; i <= 11; i += 1) {
+            rows.add("Source " + i);
+        }
 
-        DrawerAdapter drawerAdapter = new DrawerAdapter(rows);
+        DrawerAdapter drawerAdapter = new DrawerAdapter(this, rows);
         recyclerView.setAdapter(drawerAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

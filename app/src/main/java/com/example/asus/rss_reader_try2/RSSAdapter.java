@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public class RSSAdapter extends BaseAdapter {
         holder.itemTitle.setText(items.get(position).getTitle());
         holder.pubDate.setText(items.get(position).getDate());
         try {
-            Picasso.with(context).load(items.get(position).getImg()).placeholder(R.mipmap.placeholder).fit().into(holder.thumbnail);
+            Glide.with(context).load(items.get(position).getImg()).placeholder(R.mipmap.placeholder).into(holder.thumbnail);
         } catch (Exception e) {
             e.printStackTrace();
         }
