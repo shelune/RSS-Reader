@@ -1,6 +1,7 @@
 package com.example.asus.rss_reader_try2;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,10 +26,22 @@ public class RSSFragment extends Fragment implements AdapterView.OnItemClickList
     private ProgressBar progressBar;
     private ListView listView;
     private View view;
+    private int position;
+    public static String MAINPOS = "position";
+
+    public static RSSFragment newInstance(int pos) {
+        Bundle args = new Bundle();
+        args.putInt(RSSService.POS, pos);
+        RSSFragment fragment = new RSSFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        position = this.getArguments().getInt(RSSFragment.MAINPOS);
         super.onCreate(savedInstanceState);
+
         setRetainInstance(true);
     }
 
@@ -40,6 +53,9 @@ public class RSSFragment extends Fragment implements AdapterView.OnItemClickList
             progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
             listView = (ListView) view.findViewById(R.id.listView);
             listView.setOnItemClickListener(this);
+            //int[] colors = {0xffe3f2fd , 0xff42a5f5};
+            //listView.setDivider(new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors));
+            //listView.setDividerHeight(10);
 
             startService();
         } else {
@@ -52,6 +68,7 @@ public class RSSFragment extends Fragment implements AdapterView.OnItemClickList
     private void startService() {
         Intent intent = new Intent(getActivity(), RSSService.class);
         intent.putExtra(RSSService.RECEIVER, resultReceiver);
+        intent.putExtra(RSSService.POS, position);
         getActivity().startService(intent);
     }
 

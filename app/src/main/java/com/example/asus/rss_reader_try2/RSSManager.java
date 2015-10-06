@@ -1,9 +1,10 @@
 package com.example.asus.rss_reader_try2;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 public class RSSManager {
-    private static ArrayList<String> list = new ArrayList<>();
+    private LinkedHashMap<String,String> list = new LinkedHashMap<>();
     private static final RSSManager manager = new RSSManager();
 
     private static final String RSS_URL_SMASHING = "http://www.smashingmagazine.com/feed/";
@@ -26,26 +27,29 @@ public class RSSManager {
         return manager;
     }
 
-    public ArrayList<String> getList() {
-        return list;
+    public void newList() {
+        list.clear();
+        list.put("SMASHING MAGAZINE", RSS_URL_SMASHING);
+        list.put("TECHNOLOGY", RSS_URL_TECH);
+        list.put("HEALTH", RSS_URL_HEALTH);
+        list.put("NIGHTLINE", RSS_URL_NIGHTLINE);
+        list.put("ENTERTAINMENT", RSS_URL_ENTERTAINMENT);
+        list.put("SPORTS", RSS_URL_SPORTS);
+        list.put("TRAVEL", RSS_URL_TRAVEL);
+        list.put("POLITICS", RSS_URL_POLITICS);
+        list.put("WORLD", RSS_URL_WORLD);
+        list.put("PCWORLD", RSS_URL_PCWORLD);
+        list.put("DOTA", RSS_URL_DOTA);
     }
 
     public String getLink(int position) {
-        return list.get(position);
+        String result = (new ArrayList<String>(list.values())).get(position);
+        return result;
     }
 
-    public void newList() {
-        list.clear();
-        list.add(RSS_URL_SMASHING);
-        list.add(RSS_URL_TECH);
-        list.add(RSS_URL_HEALTH);
-        list.add(RSS_URL_ENTERTAINMENT);
-        list.add(RSS_URL_SPORTS);
-        list.add(RSS_URL_TRAVEL);
-        list.add(RSS_URL_POLITICS);
-        list.add(RSS_URL_WORLD);
-        list.add(RSS_URL_NIGHTLINE);
-        list.add(RSS_URL_PCWORLD);
-        list.add(RSS_URL_DOTA);
+    public String getTitle(int position) {
+        String result = (new ArrayList<String>(list.keySet())).get(position);
+        return result;
     }
+
 }

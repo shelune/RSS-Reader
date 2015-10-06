@@ -1,8 +1,13 @@
 package com.example.asus.rss_reader_try2;
 
+import java.io.IOException;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -21,7 +26,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
     private static final int ROW_TYPE = 1;
 
     private List<String> rows;
+
     Context context;
+
     public DrawerAdapter(Context context, List<String> rows) {
         this.rows = rows;
         this.context = context;
@@ -47,8 +54,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         if (holder.viewType == ROW_TYPE) {
             String rowText = rows.get(position - 1);
             holder.rowText.setText(rowText);
-            holder.rowIcon.setImageResource(R.mipmap.ic_launcher);
-
+            holder.rowIcon.setImageResource(R.mipmap.bullet_point);
         }
     }
 
@@ -64,27 +70,25 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         return ROW_TYPE;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         protected int viewType;
         Context context;
-        @Bind(R.id.row_icon) ImageView rowIcon;
-        @Bind(R.id.row_text) TextView rowText;
+        @Bind(R.id.row_icon)
+        ImageView rowIcon;
+        @Bind(R.id.row_text)
+        TextView rowText;
+        private View v;
 
 
         public ViewHolder(View itemView, int viewType, Context context) {
             super(itemView);
+            v = itemView;
             this.viewType = viewType;
             this.context = context;
-            itemView.setOnClickListener(this);
 
             if (viewType == ROW_TYPE) {
                 ButterKnife.bind(this, itemView);
             }
-        }
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(context, "Item Clicked at " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
         }
     }
 }

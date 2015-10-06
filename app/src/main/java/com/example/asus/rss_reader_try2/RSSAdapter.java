@@ -1,5 +1,6 @@
 package com.example.asus.rss_reader_try2;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class RSSAdapter extends BaseAdapter {
         this.items = items;
         this.context = context;
     }
+
 
     @Override
     public int getCount() {
@@ -57,7 +59,7 @@ public class RSSAdapter extends BaseAdapter {
         holder.itemTitle.setText(items.get(position).getTitle());
         holder.pubDate.setText(items.get(position).getDate());
         try {
-            Glide.with(context).load(items.get(position).getImg()).placeholder(R.mipmap.placeholder).into(holder.thumbnail);
+            Glide.with(context).load(items.get(position).getImg()).centerCrop().crossFade(R.mipmap.placeholder).into(holder.thumbnail);
         } catch (Exception e) {
             e.printStackTrace();
         }

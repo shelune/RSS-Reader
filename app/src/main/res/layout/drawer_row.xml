@@ -10,7 +10,7 @@
         android:id="@+id/row_icon"
         android:layout_marginLeft="16dp"
         android:layout_gravity="center_vertical"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/bullet_point"
         />
     
     <TextView

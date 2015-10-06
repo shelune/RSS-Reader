@@ -21,6 +21,7 @@ public class RSSService extends IntentService {
     public static final String ITEMS = "items";
     public static final String RECEIVER = "receiver";
     public static final String LINK = "link";
+    public static final String POS = "position";
 
     public RSSService() {
         super("RSSService");
@@ -31,7 +32,8 @@ public class RSSService extends IntentService {
         List<RSSItem> rssItems = null;
         try {
             DOMParser parser = new DOMParser();
-            rssItems = parser.parse(getInputStream(RSSManager.getInstance().getLink(8)));
+            int position = intent.getIntExtra(POS, 0);
+            rssItems = parser.parse(getInputStream(RSSManager.getInstance().getLink(position)));
         } catch (XmlPullParserException e) {
             Log.w(e.getMessage(), e);
         } catch (IOException e) {

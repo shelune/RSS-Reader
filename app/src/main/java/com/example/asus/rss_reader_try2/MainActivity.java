@@ -9,10 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.drawer_layout) DrawerLayout drawerLayout;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.drawer_recyclerView) RecyclerView recyclerView;
+
+    private final int listLength = 11;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +51,32 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.syncState();
 
         List<String> rows = new ArrayList<>();
-        for (int i = 1; i <= 11; i += 1) {
-            rows.add("Source " + i);
+        for (int i = 1; i <= listLength; i += 1) {
+            rows.add(RSSManager.getInstance().getTitle(i - 1));
         }
 
         DrawerAdapter drawerAdapter = new DrawerAdapter(this, rows);
         recyclerView.setAdapter(drawerAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        final GestureDetector mGestureDetector = new GestureDetector(MainActivity.this, new GestureDetector.SimpleOnGestureListener(){
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return true;
+            }
+        });
+
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                if (child != null && mGestureDetector.onTouchEvent(e)) {
+                    drawerLayout.closeDrawers();
+                    Toast.makeText(recyclerView.getContext(), "Item Clicked At " + recyclerView.getChildAdapterPosition(child), Toast.LENGTH_SHORT);
+                    changeFeed(recyclerView.getChildAdapterPosition(child));
+                    return true;
+                }
                 return false;
             }
 
@@ -71,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (savedInstanceState == null) {
-            addRssFragment();
+            addRssFragment(0);
         }
     }
 
@@ -97,23 +118,28 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void addRssFragment() {
+    private void addRssFragment(int pos) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(RSSFragment.MAINPOS, pos);
+        RSSFragment frag = new RSSFragment();
+        frag.setArguments(bundle);
+
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        RSSFragment frag = new RSSFragment();
         transaction.add(R.id.fragment_container, frag);
         transaction.commit();
     }
 
-    private void changeFeed(String link) {
+    private void changeFeed(int pos) {
         Bundle bundle = new Bundle();
-        bundle.putString(RSSService.LINK, link);
+        bundle.putInt(RSSFragment.MAINPOS, pos - 1);
         RSSFragment frag = new RSSFragment();
         frag.setArguments(bundle);
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment_container, frag);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
