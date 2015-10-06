@@ -43,12 +43,12 @@ public class RSSManager {
     }
 
     public String getLink(int position) {
-        String result = (new ArrayList<String>(list.values())).get(position);
+        String result = (new ArrayList<>(list.values())).get(position);
         return result;
     }
 
     public String getTitle(int position) {
-        String result = (new ArrayList<String>(list.keySet())).get(position);
+        String result = (new ArrayList<>(list.keySet())).get(position);
         return result;
     }
 

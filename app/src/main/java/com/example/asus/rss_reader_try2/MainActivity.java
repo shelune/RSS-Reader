@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.drawer_layout) DrawerLayout drawerLayout;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.drawer_recyclerView) RecyclerView recyclerView;
-
-    private final int listLength = 11;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.syncState();
 
         List<String> rows = new ArrayList<>();
+        int listLength = 11;
         for (int i = 1; i <= listLength; i += 1) {
             rows.add(RSSManager.getInstance().getTitle(i - 1));
         }
@@ -73,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
                 if (child != null && mGestureDetector.onTouchEvent(e)) {
                     drawerLayout.closeDrawers();
-                    Toast.makeText(recyclerView.getContext(), "Item Clicked At " + recyclerView.getChildAdapterPosition(child), Toast.LENGTH_SHORT);
+                    Toast.makeText(recyclerView.getContext(), "Item Clicked At " + recyclerView.getChildAdapterPosition(child), Toast.LENGTH_SHORT).show();
                     changeFeed(recyclerView.getChildAdapterPosition(child));
                     return true;
                 }

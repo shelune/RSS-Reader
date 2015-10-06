@@ -1,6 +1,5 @@
 package com.example.asus.rss_reader_try2;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +8,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-/**
- * Created by ASUS on 25-Sep-15.
- */
 public class RSSAdapter extends BaseAdapter {
 
     private List<RSSItem> items;

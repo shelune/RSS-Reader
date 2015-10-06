@@ -1,7 +1,6 @@
 package com.example.asus.rss_reader_try2;
 
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,26 +15,14 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.net.URI;
 import java.util.List;
 
-/**
- * Created by ASUS on 25-Sep-15.
- */
 public class RSSFragment extends Fragment implements AdapterView.OnItemClickListener {
     private ProgressBar progressBar;
     private ListView listView;
     private View view;
     private int position;
     public static String MAINPOS = "position";
-
-    public static RSSFragment newInstance(int pos) {
-        Bundle args = new Bundle();
-        args.putInt(RSSService.POS, pos);
-        RSSFragment fragment = new RSSFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

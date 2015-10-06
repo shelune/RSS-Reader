@@ -4,24 +4,17 @@ import java.io.IOException;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder> {
-    private LayoutInflater inflater;
     private static final int HEADER_TYPE = 0;
     private static final int ROW_TYPE = 1;
 
@@ -32,7 +25,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
     public DrawerAdapter(Context context, List<String> rows) {
         this.rows = rows;
         this.context = context;
-        inflater = LayoutInflater.from(context);
     }
 
     @Override
