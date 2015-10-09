@@ -3,4 +3,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="info">Info</string>
+    <string name="title_activity_info">Info</string>
+    <string name="version">Version</string>
+    <string name="versionContent">1.0.0</string>
 </resources>

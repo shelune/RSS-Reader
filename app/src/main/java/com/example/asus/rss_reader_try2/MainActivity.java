@@ -1,6 +1,7 @@
 package com.example.asus.rss_reader_try2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -109,8 +110,12 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+
+        if (id == R.id.info) {
+            startActivity(new Intent(this, Info.class));
         }
 
         return super.onOptionsItemSelected(item);
