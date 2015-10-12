@@ -22,7 +22,6 @@ public class Info extends AppCompatActivity {
 
 // Info Activity
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
