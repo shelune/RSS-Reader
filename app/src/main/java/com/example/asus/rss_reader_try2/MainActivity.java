@@ -34,16 +34,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        // Set up font
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                         .setDefaultFontPath("fonts/Colfax-Medium.ttf")
                         .setFontAttrId(R.attr.fontPath)
                         .build()
         );
+
+        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
 
+        // Init the drawer
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
@@ -59,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
+        // Handle the click on the Recycler View items
         final GestureDetector mGestureDetector = new GestureDetector(MainActivity.this, new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
@@ -81,15 +87,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
+                return;
             }
 
             @Override
             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
+                return;
             }
         });
 
+        // Get the default fragment
         if (savedInstanceState == null) {
             addRssFragment(0);
         }
@@ -104,9 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -114,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 //            return true;
 //        }
 
+        // Click on the Info icon
         if (id == R.id.info) {
             startActivity(new Intent(this, Info.class));
         }
@@ -133,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    // change the feed acquired
     private void changeFeed(int pos) {
         Bundle bundle = new Bundle();
         bundle.putInt(RSSFragment.MAINPOS, pos - 1);

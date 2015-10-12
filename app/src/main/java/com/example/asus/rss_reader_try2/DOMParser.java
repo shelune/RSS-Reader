@@ -41,6 +41,7 @@ public class DOMParser {
 
         int eventType = parser.getEventType();
 
+        // try to read through the feed and extract the tag contents
         while (eventType != XmlPullParser.END_DOCUMENT) {
             String eventName = parser.getName();
             if (eventType == XmlPullParser.START_TAG) {

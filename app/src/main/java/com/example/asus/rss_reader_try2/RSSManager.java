@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class RSSManager {
+
+    // Store the links
+
     private LinkedHashMap<String,String> list = new LinkedHashMap<>();
     private static final RSSManager manager = new RSSManager();
 
@@ -43,13 +46,11 @@ public class RSSManager {
     }
 
     public String getLink(int position) {
-        String result = (new ArrayList<>(list.values())).get(position);
-        return result;
+        return (new ArrayList<>(list.values())).get(position);
     }
 
     public String getTitle(int position) {
-        String result = (new ArrayList<>(list.keySet())).get(position);
-        return result;
+        return (new ArrayList<>(list.keySet())).get(position);
     }
 
 }

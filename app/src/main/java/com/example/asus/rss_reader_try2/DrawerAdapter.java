@@ -1,6 +1,5 @@
 package com.example.asus.rss_reader_try2;
 
-import java.io.IOException;
 import java.util.List;
 
 import android.content.Context;
@@ -15,6 +14,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder> {
+
+   // Adapter for the Feed Drawer
+
     private static final int HEADER_TYPE = 0;
     private static final int ROW_TYPE = 1;
 

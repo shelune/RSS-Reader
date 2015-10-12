@@ -18,6 +18,9 @@ import android.widget.Toast;
 import java.util.List;
 
 public class RSSFragment extends Fragment implements AdapterView.OnItemClickListener {
+
+    // Fragment to display the RSS
+
     private ProgressBar progressBar;
     private ListView listView;
     private View view;

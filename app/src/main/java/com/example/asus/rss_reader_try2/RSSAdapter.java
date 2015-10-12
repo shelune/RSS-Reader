@@ -13,6 +13,8 @@ import java.util.List;
 
 public class RSSAdapter extends BaseAdapter {
 
+    // Adapter for the RSS Item
+
     private List<RSSItem> items;
     private final Context context;
 

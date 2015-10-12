@@ -2,9 +2,6 @@ package com.example.asus.rss_reader_try2;
 
 import org.jsoup.nodes.Document;
 
-/**
- * Created by ASUS on 25-Sep-15.
- */
 public class RSSItem {
     private String title;
     private String link;
@@ -28,20 +25,12 @@ public class RSSItem {
         return link;
     }
 
-    public Document getDescription() {
-        return description;
-    }
-
     public String getDate() {
         return date;
     }
 
     public String getImg() {
         return imgUrl;
-    }
-
-    public void setImg(String imgUrl) {
-        this.imgUrl = imgUrl;
     }
 
 }

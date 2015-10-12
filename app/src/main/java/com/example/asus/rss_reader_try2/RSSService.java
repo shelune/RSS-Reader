@@ -18,9 +18,10 @@ import java.util.List;
 
 public class RSSService extends IntentService {
 
+    // Handle the link and parse the item
+
     public static final String ITEMS = "items";
     public static final String RECEIVER = "receiver";
-    public static final String LINK = "link";
     public static final String POS = "position";
 
     public RSSService() {
@@ -39,6 +40,8 @@ public class RSSService extends IntentService {
         } catch (IOException e) {
             Log.w(e.getMessage(), e);
         }
+
+        // Send the bundle to the new intent
 
         Bundle bundle = new Bundle();
         bundle.putSerializable(ITEMS, (Serializable) rssItems);
